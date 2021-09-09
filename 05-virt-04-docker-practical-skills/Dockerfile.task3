@@ -1,0 +1,27 @@
+FROM node
+
+#Install git
+RUN apt-get update \
+    && apt-get install -y git
+
+RUN mkdir /nodejs-demo \
+    && cd /nodejs-demo \
+    && git clone https://github.com/simplicitesoftware/nodejs-demo.git .
+
+ARG port=3000
+ARG host=0.0.0.0
+
+ENV VCAP_APP_HOST ${host}
+ENV VCAP_APP_PORT ${port}
+
+ENV SIMPLICITE_URL https://demo.dev.simplicite.io
+ENV SIMPLICITE_USERNAME admin
+ENV SIMPLICITE_PASSWORD admin
+
+WORKDIR /nodejs-demo
+
+RUN npm install
+
+EXPOSE ${port}
+
+CMD ["npm", "start"]

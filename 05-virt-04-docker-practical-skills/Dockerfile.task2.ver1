@@ -1,0 +1,46 @@
+FROM amazoncorretto
+
+ARG tini_ver=v0.19.0
+ARG http_port=8080
+ARG agent_port=50000
+ARG REF=/usr/share/jenkins/ref
+ARG JENKINS_HOME=/var/jenkins_home
+
+ARG JENKINS_VERSION
+ENV JENKINS_VERSION ${JENKINS_VERSION:-2.289.3}
+
+ARG JENKINS_SHA=996dfd29d5f933546af9e9f77c29b371fb0627b8266b6c9f134ac2e0f1248b87
+
+ENV JAVA_OPTS "-Djava.awt.headless=true"
+ENV JENKINS_HOME $JENKINS_HOME
+ENV TINI_VERSION $tini_ver
+
+ARG JENKINS_URL=https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/${JENKINS_VERSION}/jenkins-war-${JENKINS_VERSION}.war
+
+
+RUN yum install -y wget \
+    && wget -O /etc/yum.repos.d/jenkins.repo \
+                  https://pkg.jenkins.io/redhat-stable/jenkins.repo \
+    && rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key \
+    && yum upgrade -y \
+    && yum install -y epel-release java-11-amazon-corretto \
+    && yum install -y --skip-broken jenkins
+
+RUN mkdir -p ${REF}/init.groovy.d \
+    && mkdir -p $JENKINS_HOME
+
+RUN curl -fsSL ${JENKINS_URL} -o /usr/share/jenkins/jenkins.war \
+  && echo "${JENKINS_SHA}  /usr/share/jenkins/jenkins.war"  | sha256sum -c -
+
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
+
+ADD https://raw.githubusercontent.com/jenkinsci/docker/master/jenkins.sh /usr/local/bin/jenkins.sh
+RUN chmod +x /usr/local/bin/jenkins.sh
+
+VOLUME ${JENKINS_HOME}
+
+EXPOSE ${http_port}
+EXPOSE ${agent_port}
+
+ENTRYPOINT ["/tini", "--", "/usr/local/bin/jenkins.sh"]

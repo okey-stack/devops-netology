@@ -1,0 +1,37 @@
+FROM ubuntu:latest
+
+ARG tini_ver=v0.19.0
+ARG http_port=8080
+ARG agent_port=50000
+ARG REF=/usr/share/jenkins/ref
+ARG JENKINS_HOME=/var/jenkins_home
+
+ENV JAVA_OPTS "-Djava.awt.headless=true"
+ENV JENKINS_HOME $JENKINS_HOME
+ENV TINI_VERSION $tini_ver
+
+RUN apt update -y \
+    && apt install -y gnupg2 \
+    && apt install -y wget \
+    && wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key \
+                          | apt-key add - \
+    && sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > \
+    /etc/apt/sources.list.d/jenkins.list' \
+    && apt install -y openjdk-11-jdk \
+    && apt update -y \
+    && apt install -y jenkins
+
+RUN mkdir -p ${REF}/init.groovy.d
+
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
+
+ADD https://raw.githubusercontent.com/jenkinsci/docker/master/jenkins.sh /usr/local/bin/jenkins.sh
+RUN chmod +x /usr/local/bin/jenkins.sh
+
+VOLUME ${JENKINS_HOME}
+
+EXPOSE ${http_port}
+EXPOSE ${agent_port}
+
+ENTRYPOINT ["/tini", "--", "/usr/local/bin/jenkins.sh"]
