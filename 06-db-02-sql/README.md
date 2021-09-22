@@ -12,7 +12,7 @@
 
 Приведите получившуюся команду или docker-compose манифест.
 
-```sudo rm -rf pg_data/ && docker run --rm -d --name 06-db-02-postgres  -v "$PWD/pg_data":/var/lib/postgresql/data -v "$PWD/pg_backup":/var/lib/postgresql/backup -v "$PWD/pg_conf.conf":/etc/postgresql/postgresql.conf -v "$PWD/init.sql":/docker-entrypoint-initdb.d/ -e PGDATA=/var/lib/postgresql/data -e POSTGRES_PASSWORD=postgres postgres:12```  
+```sudo rm -rf pg_data/ && docker run --rm -d --name 06-db-02-postgres -p 5432:5432 -v "$PWD/pg_data":/var/lib/postgresql/data -v "$PWD/pg_backup":/var/lib/postgresql/backup -v "$PWD/pg_conf.conf":/etc/postgresql/postgresql.conf -v "$PWD/init.sql":/docker-entrypoint-initdb.d/init.sql -e PGDATA=/var/lib/postgresql/data -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=test_db postgres:12```  
 _Тут присутсвует sudo rm -rf pg_data/ т.к. если папку не очистить, то при рестарте не будут выполняться автоматичски скрипты инициализации из папки docker-entrypoint-initdb.d/_ т.к база уже будет создана. Для первого старта можно убрать  
 Подключаться будем под нашим админом - ```docker exec -it 06-db-02-postgres psql -U test-admin-user -d test_db```  
 ## Задача 2
