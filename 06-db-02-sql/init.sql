@@ -15,7 +15,6 @@ CREATE TABLE clients (
     FOREIGN KEY (order_id) REFERENCES orders (id)
 );
 CREATE INDEX accommodation_idx ON clients (accommodation);
-CREATE INDEX order_id_idx ON clients (order_id);
 
 CREATE USER "test-admin-user" WITH PASSWORD 'admin';
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO "test-admin-user";
