@@ -60,12 +60,12 @@ backend "remote" {
 ```
 #### В качестве результата приложите ссылку на файлы `server.yaml` и `atlantis.yaml`.
 
-Создали небольшой ![докерфайл](atlantis-dockerfile)  
+Создали небольшой [докерфайл](atlantis-dockerfile)  
 запускаем сервер ```docker run -p 4141:4141 atlantis:latest server --config /tmp/server.yaml --repo-config /tmp/repo.yaml```
-Передав в качестве аргумента файлы конфигураций ![server.yaml](server.yaml) и ![repo.yaml](repo.yaml)
+Передав в качестве аргумента файлы конфигураций [server.yaml](server.yaml) и [repo.yaml](repo.yaml)
 
 Для того чтобы можно было переопределять настройки воркфлоу проекта на клиентской стороне нужно в конфиге задать allowed_overrides
-![atlantis](atlantis.yaml)
+[atlantis](atlantis.yaml)
 
 ## Задача 3. Знакомство с каталогом модулей. 
 
