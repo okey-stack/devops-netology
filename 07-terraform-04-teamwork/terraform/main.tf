@@ -38,17 +38,35 @@ data "aws_ami" "ubuntu" {
   }
 }
 
-resource "aws_instance" "web" {
-  ami                         = data.aws_ami.ubuntu.id
-  instance_type               = local.instance_type.test
-  availability_zone           = var.az
-  associate_public_ip_address = true
-  vpc_security_group_ids      = [aws_security_group.ssh.name]
-  count                       = local.instance_count.test
+//resource "aws_instance" "web" {
+//  ami                         = data.aws_ami.ubuntu.id
+//  instance_type               = local.instance_type.test
+//  availability_zone           = var.az
+//  associate_public_ip_address = true
+//  vpc_security_group_ids      = [aws_security_group.ssh.name]
+//  count                       = local.instance_count.test
+//  tags = {
+//    Name = "Ubuntu-server"
+//  }
+//  depends_on = [aws_security_group.ssh]
+//}
+
+module "ec2_instance" {
+  source  = "terraform-aws-modules/ec2-instance/aws"
+  version = "~> 3.0"
+
+  name = "single-instance"
+
+  ami                    = data.aws_ami.ubuntu.id
+  instance_type          = local.instance_type.test
+  key_name               = aws_security_group.ssh.name
+  monitoring             = true
+  vpc_security_group_ids = [aws_security_group.ssh.name]
+
   tags = {
+    Terraform   = "true"
     Name = "Ubuntu-server"
   }
-  depends_on = [aws_security_group.ssh]
 }
 
 resource "aws_instance" "back" {
