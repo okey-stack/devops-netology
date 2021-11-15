@@ -40,11 +40,11 @@ data "aws_ami" "ubuntu" {
 
 resource "aws_instance" "web" {
   ami                         = data.aws_ami.ubuntu.id
-  instance_type               = local.instance_type[terraform.workspace]
+  instance_type               = local.instance_type.test
   availability_zone           = var.az
   associate_public_ip_address = true
   vpc_security_group_ids      = [aws_security_group.ssh.name]
-  count                       = local.instance_count[terraform.workspace]
+  count                       = local.instance_count.test
   tags = {
     Name = "Ubuntu-server"
   }
