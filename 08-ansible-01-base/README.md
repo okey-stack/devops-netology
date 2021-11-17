@@ -47,14 +47,14 @@ ok: [ubuntu] => {
 ```
 6. #### Повторите запуск playbook на окружении `prod.yml`. Убедитесь, что выдаются корректные значения для всех хостов.
 7. #### При помощи `ansible-vault` зашифруйте факты в `group_vars/deb` и `group_vars/el` с паролем `netology`.
-  ```ansible-vault encrypt playbook/group_vars/deb/*```
-  ```ansible-vault encrypt playbook/group_vars/el/examp.yml```
-8. #### Запустите playbook на окружении `prod.yml`. При запуске `ansible` должен запросить у вас пароль. Убедитесь в работоспособности.
-  ```ansible-playbook -i playbook/inventory/prod.yml playbook/site.yml --ask-vault-password```  
-9. #### Посмотрите при помощи `ansible-doc` список плагинов для подключения. Выберите подходящий для работы на `control node`.
+  ```ansible-vault encrypt playbook/group_vars/deb/*```  
+  ```ansible-vault encrypt playbook/group_vars/el/examp.yml```  
+8. #### Запустите playbook на окружении `prod.yml`. При запуске `ansible` должен запросить у вас пароль. Убедитесь в работоспособности.  
+  ```ansible-playbook -i playbook/inventory/prod.yml playbook/site.yml --ask-vault-password```    
+9. #### Посмотрите при помощи `ansible-doc` список плагинов для подключения. Выберите подходящий для работы на `control node`.  
   ```ansible-doc --type connection -l```  
-10. #### В `prod.yml` добавьте новую группу хостов с именем  `local`, в ней разместите localhost с необходимым типом подключения.
-11. #### Запустите playbook на окружении `prod.yml`. При запуске `ansible` должен запросить у вас пароль. Убедитесь что факты `some_fact` для каждого из хостов определены из верных `group_vars`.
+10. #### В `prod.yml` добавьте новую группу хостов с именем  `local`, в ней разместите localhost с необходимым типом подключения.  
+11. #### Запустите playbook на окружении `prod.yml`. При запуске `ansible` должен запросить у вас пароль. Убедитесь что факты `some_fact` для каждого из хостов определены из верных `group_vars`.  
   ```text
 TASK [Print fact] *************************************************************************
 ok: [localhost] => {
