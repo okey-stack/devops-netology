@@ -6,8 +6,8 @@ function print_help() {
     echo -e "\t$0 \"<containers>\" <playbook> <inventory> [options]"
     echo KEYS
     echo -e "\tcontainers's\tName of containers from containers.txt which will be run. space - delimiter."
-    echo -e "\ansible playbook\tAnsible playbook file"
-    echo -e "\ansible playbook\Inventory file"
+    echo -e "\tansible playbook\tAnsible playbook file"
+    echo -e "\tansible playbook\tInventory file"
     echo OPTIONS
     echo -e "\t-h\tPrint help and exit"
 }
