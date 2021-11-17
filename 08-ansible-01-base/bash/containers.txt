@@ -1,0 +1,3 @@
+fedora=pycontribs/fedora
+centos7=pycontribs/centos:7
+ubuntu=pycontribs/ubuntu
