@@ -38,13 +38,15 @@ function clear_containers() {
     # Stop and remove images and containers
     for cntr in ${CNTRS[@]}
     do
-        if ! $cntr; then
+        if ! [[ -v "${cntr}" ]]; then
           abort "Wrong container name"
         fi
         check_exec "Removing container ${cntr}..." "docker rm --force ${cntr}"
         # check_exec "Removing image ${cntr}..." "docker image rm ${!cntr}"
     done
 }
+
+
 
 
 # Source containers
