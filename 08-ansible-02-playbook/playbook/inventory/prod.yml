@@ -13,3 +13,8 @@ kibana:
     kibana:
       ansible_connection: docker
       ansible_user: root
+logstash:
+  hosts:
+    logstash:
+      ansible_connection: docker
+      ansible_user: root

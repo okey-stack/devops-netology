@@ -1,0 +1,4 @@
+---
+logstash_version: "7.15.2"
+logstash_home: "/opt/logstash/{{ logstash_version }}"
+elasticsearch_addr: elasticsearch # container name

@@ -16,6 +16,7 @@ name: Run elasticsearch container # Имя таски
     command: sleep infinity       # процесс для работы контейнера в демон режиме
   tags: env                       # тег для тасок создания окружения           
 ```
+---
   #### java
 ```yaml
 name: Install Java
@@ -46,6 +47,7 @@ name: Install Java
         dest: /etc/profile.d/jdk.sh # поместим его сюдя для запуска и создания окружения 
       tags: java           
 ```
+---
   #### elasticsearch
 ```yaml
 ...
@@ -63,5 +65,7 @@ tasks:
       tags: kibana    
 ...
 ```
-  
+---
 ### Additional task
+  #### logstash
+  Конфигурация logstash отличается от предыдущих только тем что в ней необходимо вместо переменных окружения добавить конфиг
