@@ -30,13 +30,44 @@
 
 ## Необязательная часть
 
-1. Приготовьте дополнительный хост для установки logstash.
-2. Пропишите данный хост в `prod.yml` в новую группу `logstash`.
-3. Дополните playbook ещё одним play, который будет исполнять установку logstash только на выделенный для него хост.
-4. Все переменные для нового play определите в отдельный файл `group_vars/logstash/vars.yml`.
-5. Logstash конфиг должен конфигурироваться в части ссылки на elasticsearch (можно взять, например его IP из facts или определить через vars).
-6. Дополните README.md, протестируйте playbook, выложите новую версию в github. В ответ предоставьте ссылку на репозиторий.
-
+1. #### Приготовьте дополнительный хост для установки logstash.
+   ```yaml
+    - name: Run logstash container
+      docker_container:
+        name: logstash
+        recreate: yes
+        force_kill: true
+        image: pycontribs/ubuntu
+        command: sleep infinity
+      tags: env
+   ```
+2. #### Пропишите данный хост в `prod.yml` в новую группу `logstash`.
+   ```yaml
+   logstash:
+     hosts:
+       logstash:
+         ansible_connection: docker
+         ansible_user: root
+   ```
+3. #### Дополните playbook ещё одним play, который будет исполнять установку logstash только на выделенный для него хост.
+   ```yaml
+   ...
+   - name: Install Logstash
+     hosts: logstash
+       tasks:
+   ...
+   ```
+4. #### Все переменные для нового play определите в отдельный файл `group_vars/logstash/vars.yml`.
+   ```yaml
+   logstash_version: "7.15.2"
+   logstash_home: "/opt/logstash/{{ logstash_version }}"
+   elasticsearch_addr: elasticsearch # container name
+   ```
+5. #### Logstash конфиг должен конфигурироваться в части ссылки на elasticsearch (можно взять, например его IP из facts или определить через vars).
+   ```yaml
+   elasticsearch_addr: elasticsearch # container name
+   ```
+6. #### Дополните README.md, протестируйте playbook, выложите новую версию в github. В ответ предоставьте ссылку на репозиторий.
 ---
 
 ### Как оформить ДЗ?
