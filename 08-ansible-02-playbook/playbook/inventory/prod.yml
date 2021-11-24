@@ -1,0 +1,15 @@
+---
+env:
+  hosts:
+    env:
+      ansible_connection: local
+elasticsearch:
+  hosts:
+    elasticsearch:
+      ansible_connection: docker
+      ansible_user: root
+kibana:
+  hosts:
+    kibana:
+      ansible_connection: docker
+      ansible_user: root
