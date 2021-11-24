@@ -21,9 +21,9 @@
 5. #### Запустите `ansible-lint site.yml` и исправьте ошибки, если они есть.
 6. #### Попробуйте запустить playbook на этом окружении с флагом `--check`.
 7. #### Запустите playbook на `prod.yml` окружении с флагом `--diff`. Убедитесь, что изменения на системе произведены.
-  ```ansible-playbook -i inventory/prod.yml site.yml --diff```
+  ```ansible-playbook -i inventory/prod.yml site.yml --diff```  
 8. #### Повторно запустите playbook с флагом `--diff` и убедитесь, что playbook идемпотентен.
-  ```ansible-playbook -i inventory/prod.yml site.yml --tags [elastic,kibana] --diff```   
+  ```ansible-playbook -i inventory/prod.yml site.yml --tags [elastic,kibana] --diff```     
 9. #### Подготовьте README.md файл по своему playbook. В нём должно быть описано: что делает playbook, какие у него есть параметры и теги.
    В [файле](playbook/README.md) описаны основные разделы и используемые флаги
 10. #### Готовый playbook выложите в свой репозиторий, в ответ предоставьте ссылку на него.
