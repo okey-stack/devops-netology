@@ -38,6 +38,7 @@
       copy:
         src: "{{ java_oracle_jdk_package }}"
         dest: "/tmp/jdk-{{ java_jdk_version }}.tar.gz"
+        mode: 0644
       register: download_java_binaries
       until: download_java_binaries is succeeded
       tags: java
@@ -46,6 +47,7 @@
       file:
         state: directory
         path: "{{ java_home }}"
+        mode: 0655
       tags: java
     - name: Extract java in the installation directory
       become: true
@@ -62,6 +64,7 @@
       template:
         src: jdk.sh.j2
         dest: /etc/profile.d/jdk.sh
+        mode: 0755
       tags: java
 - name: Install Elasticsearch
   hosts: elasticsearch
@@ -82,6 +85,7 @@
       file:
         state: directory
         path: "{{ elastic_home }}"
+        mode: 0655
       tags: elastic
     - name: Extract Elasticsearch in the installation directory
       become: true
@@ -98,6 +102,7 @@
       template:
         src: templates/elk.sh.j2
         dest: /etc/profile.d/elk.sh
+        mode: 0755
       tags: elastic
 - name: Install Kibana
   hosts: kibana
@@ -117,6 +122,7 @@
       file:
         state: directory
         path: "{{ kibana_home }}"
+        mode: 0655
       tags: kibana
     - name: Extract Kibana in the installation directory
       become: true
@@ -132,6 +138,7 @@
       template:
         src: templates/kbn.sh.j2
         dest: /etc/profile.d/kbn.sh
+        mode: 0755
       tags: kibana
 - name: Install Logstash
   hosts: logstash
@@ -151,6 +158,7 @@
       file:
         state: directory
         path: "{{ logstash_home }}"
+        mode: 0655
       tags: logstash
     - name: Extract Logstash in the installation directory
       become: true
@@ -166,4 +174,5 @@
       template:
         src: templates/lgs.conf.j2
         dest: "{{ logstash_home }}/lgs.conf"
+        mode: 0644
       tags: logstash
