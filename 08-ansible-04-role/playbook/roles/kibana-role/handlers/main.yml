@@ -1,8 +1,0 @@
----
-# handlers file for kibana-role
-- name: restart Kibana
-  become: true
-  service:
-    name: kibana
-    state: restarted
-  when: ansible_virtualization_type != 'docker'
