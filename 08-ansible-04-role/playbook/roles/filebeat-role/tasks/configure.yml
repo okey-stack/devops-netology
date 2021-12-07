@@ -1,0 +1,24 @@
+---
+- name: Configure Filebeat
+  become: true
+  template:
+    src: filebeat.yml.j2
+    dest: /etc/filebeat/filebeat.yml
+    mode: 0644
+  notify: restart Filebeat
+- name: Set filebeat systemwork
+  become: true
+  command:
+    cmd: filebeat modules enable system
+    chdir: /usr/share/filebeat/bin
+  register: filbeat_modules
+  changed_when: filbeat_modules.stdout != 'Module system is already enabled'
+- name: Load Kibana Dashboards
+  become: true
+  command:
+    cmd: filebeat setup
+    chdir: /usr/share/filebeat/bin
+  register: filebeat_setup
+  changed_when: false
+  until: filebeat_setup is succeeded
+  notify: restart Filebeat
