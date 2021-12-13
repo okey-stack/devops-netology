@@ -1,0 +1,4 @@
+collections:
+  - name: git@github.com:okey-stack/ansible_collection.git
+    type: git
+    version: 1.0.0

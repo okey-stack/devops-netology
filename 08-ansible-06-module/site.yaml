@@ -1,0 +1,11 @@
+- name: test module
+  hosts: localhost
+  collections:
+    - study.file
+  tasks:
+    - name: Test module
+      create_file:
+        path: content.txt
+    - name: import role from a collection
+      import_role:
+        name: create-file-role
