@@ -1,0 +1,26 @@
+filebeat.inputs:
+  - type: container
+    enabled: true 
+    ignore_oldest: true
+    paths: 
+      - '/var/lib/docker/containers/*/*-json.log'
+
+processors:
+  - add_docker_metadata:
+      host: "unix:///var/run/docker.sock"
+
+  - drop_event:
+      when:
+        not:
+          equals:
+            container.name: some_app
+
+
+output.logstash:
+  hosts: ["logstash:5046"]
+
+# output.console:
+#   enabled: true
+
+logging.json: true
+logging.metrics.enabled: false
