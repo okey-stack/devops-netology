@@ -1,0 +1,49 @@
+---
+# - name: Create ingress deployment
+#   kubernetes.core.k8s:
+#     kubeconfig: ~/.kube/config_ext
+#     state: present
+#     definition:
+
+# tasks file for deploy-hw
+- name: Create Hello World deployment
+  kubernetes.core.k8s:
+    kubeconfig: ~/.kube/config_ext
+    state: present
+    definition:
+      kind: Deployment
+      metadata:
+        name: hello-world
+        namespace: default
+      spec:
+        selector:
+          matchLabels:
+            app: hello-world
+        template:
+          metadata:
+            labels:
+              app: hello-world
+          spec:
+            containers:
+            - name: hello-world
+              image: k8s.gcr.io/echoserver:1.4
+              ports:
+              - containerPort: 8080
+
+- name: Create 
+  kubernetes.core.k8s:
+    kubeconfig: ~/.kube/config_ext
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: hello-world
+        namespace: default
+      spec:
+        type: ClusterIP
+        ports:
+        - port: 8080
+          targetPort: 8080
+        selector:
+          app: hello-world

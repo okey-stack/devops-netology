@@ -1,0 +1,15 @@
+---
+- name: Install snapd
+  become: true
+  apt:
+    name: snapd
+    state: present
+    update_cache: yes
+- name: Install MicroK8s
+  become: true
+  community.general.snap:
+    name: microk8s
+    channel: 1.21
+    classic: yes
+    state: present
+
