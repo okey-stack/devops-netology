@@ -12,6 +12,19 @@
 Требования: опишите, сколько нод в кластере и сколько ресурсов (ядра, ОЗУ, диск) нужно для запуска приложения. Расчет вести из необходимости запуска 5 копий фронтенда и 10 копий бекенда, база и кеш.
 
 ---
+Подсчет:
+1. DB - 3 master, 3 slave по 4 GB RAM и 2 CPU - 24GB RAM, 12 CPU 
+2. Cash - 5 master по 4 GB RAM и 1 CPU - 20 GB RAM, 5 CPU 
+3. frontend - 5 pods по 0,05 GB RAM и 0.25 CPU - 0,25 GB RAM, 1,25 CPU 
+4. backend - 10 pods по 0,6 GB RAM и 1 CPU - 6GB RAM, 10CPU 
+
+
+Итого:  
+   * Минимум ресурсов:  51 GB RAM, 28,5 CPU
+   * Ноды:
+     * 3 control plane node по 4 CPU, 16GB RAM, 250GB (+250 для raid) (минимум 2 CPU, 2GB RAM, 50GB)
+     * 5 worker node (Cash и DB - demonset) по 32GB RAM, 8 CPU, 500GB (+500 для raid)
+---
 
 ### Как оформить ДЗ?
 
