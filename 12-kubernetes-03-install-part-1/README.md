@@ -22,8 +22,8 @@
 Итого:  
    * Минимум ресурсов:  51 GB RAM, 28,5 CPU
    * Ноды:
-     * 3 control plane node по 4 CPU, 16GB RAM, 250GB (+250 для raid) (минимум 2 CPU, 2GB RAM, 50GB)
-     * 5 worker node (Cash и DB - demonset) по 32GB RAM, 8 CPU, 500GB (+500 для raid)
+     * 3 control plane node по 2 CPU, 2GB RAM, 50GB (минимум 2 CPU, 2GB RAM, 50GB)
+     * 5 worker node (Cash и DB - demonset) по 16GB RAM, 8 CPU, 100GB
 ---
 
 ### Как оформить ДЗ?
