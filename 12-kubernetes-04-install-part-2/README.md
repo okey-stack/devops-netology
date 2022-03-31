@@ -15,9 +15,8 @@
     declare -a IPS=(51.250.104.111 51.250.99.137 51.250.98.112)
     CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]} 
    ```
-
 5. inventory по умолчанию использует containerd
-6. собственно [mycluster](kubespray/inventory/mycluster)
+6. собственно [mycluster](mycluster)
 7.  `ansible-playbook -i inventory/mycluster/hosts.yaml  --become --become-user=root cluster.yml`
 8.  Создадим конфиг и проверим что наш кластер поднялся и работает
     ![get_nodes](img/get_nodes.png)  
