@@ -13,13 +13,14 @@
     ```yaml
         apiVersion: networking.k8s.io/v1
         kind: NetworkPolicy
-        namespace: cni
         metadata:
-        name: default-deny-ingress
+          name: default-deny-ingress
+          namespace: cni
         spec:
-        podSelector: {}
-        policyTypes:
+          podSelector: {}
+          policyTypes:
             - Ingress
+
     ```
 * Доступ запрещен, ожидаемо
     ![deny](img/curl_deny.png)  
