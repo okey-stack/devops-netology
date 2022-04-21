@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: stage-front-back
+  name: stage-front-back
+  namespace: stage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stage-front-back
+  template:
+    metadata:
+      labels:
+        app: stage-front-back
+    spec:
+      containers:
+      - image: dzvi/netology:13-01-backend
+        imagePullPolicy: IfNotPresent
+        name: backend
+        resources:
+          limits:
+            cpu: 200m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 256Mi
+      - image: dzvi/netology:13-01-frontend
+        imagePullPolicy: IfNotPresent
+        name: frontend
+        resources:
+          limits:
+            cpu: 200m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 256Mi
