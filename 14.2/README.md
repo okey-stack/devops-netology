@@ -57,9 +57,9 @@ client.secrets.kv.v2.read_secret_version(
 3. Зайдем на localhost:8200 и "распечаеаем" его
    ![unseal](img/unseal.png)
 4. Установим vault клиент, настроми его и создадим секрет
-    `export VAULT_ADDR=http://localhost:8200`
-    `export VAULT_TOKEN=s.1XrYgVASaBy9HsFmfDQvY6OQ`
-    `vault kv put secrets/k11s/demo/app/nginx responseText="Hello from Vault"`
+    `export VAULT_ADDR=http://localhost:8200`  
+    `export VAULT_TOKEN=s.1XrYgVASaBy9HsFmfDQvY6OQ`  
+    `vault kv put secrets/k11s/demo/app/nginx responseText="Hello from Vault"`  
     ![secret](img/create_sec.png)
 5. Создадим политику
    ```shell
@@ -89,8 +89,8 @@ client.secrets.kv.v2.read_secret_version(
     ```
     ![create_role](img/create_role.png) 
 7. Проверим 
-    `vault read -tls-skip-verify auth/approle/role/nginx-demo`
-    `vault read -tls-skip-verify auth/approle/role/nginx-demo/role-id`
+    `vault read -tls-skip-verify auth/approle/role/nginx-demo`  
+    `vault read -tls-skip-verify auth/approle/role/nginx-demo/role-id`  
     ![check](img/check.png)
 
 8. Подкорректируем настройки для подключения посмотрев ip poda и token в gui vault
