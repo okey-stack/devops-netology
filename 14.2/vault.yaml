@@ -1,0 +1,104 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vault-config
+data:
+  vault.hcl: |
+    disable_mlock = true
+    ui = true
+    api_addr = "http://vault:8200"
+
+    listener "tcp" {
+      address = "[::]:8200"
+      tls_disable = 1
+      #tls_cert_file = "/vault/userconfig/tls-server/server.crt"
+      #tls_key_file = "/vault/userconfig/tls-server/server.key"
+      #tls_ca_cert_file = "/vault/userconfig/tls-ca/ca.crt"
+    }
+    storage "file" {
+      path = "/vault/data"
+    }
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv
+spec:
+  storageClassName: ""
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 2Gi
+  hostPath:
+    path: /home/vagrant/data/pv
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: vault
+  labels:
+    app: vault
+spec:
+  serviceName: "vault"
+  selector:
+    matchLabels:
+      app: vault
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: vault
+    spec:
+      containers:
+        - name: vault
+          image: vault:1.9.0
+          imagePullPolicy: IfNotPresent
+          args:
+            - "server"
+            - "-config=/etc/vault/config/vault.hcl"
+          ports:
+            - name: http
+              containerPort: 8200
+              protocol: "TCP"
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "1Gi"
+          securityContext:
+            capabilities:
+              add:
+                - IPC_LOCK
+                - CAP_SETFCAP
+          volumeMounts:
+            - name: config
+              mountPath: /etc/vault/config
+            - name: vault-data
+              mountPath: /vault/data
+      volumes:
+        - name: config
+          configMap:
+            name: vault-config
+  volumeClaimTemplates:
+    - metadata:
+        name: vault-data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: ""
+        resources:
+          requests:
+            storage: 2Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vault
+spec:
+  clusterIP: None
+  ports:
+    - name: http
+      port: 8200
+  selector:
+    app: vault
